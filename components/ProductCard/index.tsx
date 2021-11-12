@@ -30,8 +30,9 @@ const ProductCard = (props: Props) => {
             name="small-rating"
             totalStars={5}
             starDimension="8px"
+            starRatedColor="yellow"
             starSpacing="1px"
-            rating={4}
+            rating={product.rating | 0}
           />
         </div>
         <p className="mt-1">Count: <b>{product.count}</b> Peaces</p>

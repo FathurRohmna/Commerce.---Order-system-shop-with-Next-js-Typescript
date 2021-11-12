@@ -23,7 +23,7 @@ class AuthService {
   }
 
   public login(user: UserDocument) {
-    const expiresIn = process.env.JWT_EXPIRES
+    const expiresIn = 60 * 60 * 24 * 7
     const secret = process.env.JWT_SECRET
 
     const payload: TokenPayload = { userId: user._id, email: user.email, shop: user.shop || null, permissionFlags: user.permissionFlags }

@@ -1,7 +1,6 @@
-/* eslint-disable @next/next/link-passhref */
 import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
-import Head from 'next/link'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 import { useForm, SubmitHandler } from 'react-hook-form'
@@ -129,7 +128,7 @@ export default function Login() {
               <p className="my-4 py-6 text-justify">Pastikan akun email yang anda gunakan sudah terdaftar pada sistem kami.</p>
               <div className="flex justify-between h-full">
                 <Link href="/authentication/register">
-                  <p className="mb-0 py-2 font-semibold text-primary cursor-pointer">Buat akun</p>
+                  <a className="mb-0 py-2 font-semibold text-primary cursor-pointer">Buat akun</a>
                 </Link>
                 <button type="submit" className="bg-primary font-semibold px-5 py-2 text-white rounded-md">Login</button>
               </div>

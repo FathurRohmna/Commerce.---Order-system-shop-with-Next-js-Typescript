@@ -168,7 +168,7 @@ export default ProductItem
 
 export async function getServerSideProps(context) {
   const productItem = await http.get(
-    `http://localhost:3000/api/products/${context.params.id}`
+    `http://localhost:8080/api/products/${context.params.id}`
   )
 
   console.log(context.params);

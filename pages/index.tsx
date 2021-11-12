@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Head from 'next/head'
 import Router, { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
+import jwt from 'jsonwebtoken'
 
 import { AiOutlineSearch, AiOutlineHistory, AiOutlineShoppingCart } from 'react-icons/ai'
 import StarRating from 'react-star-ratings'
@@ -20,7 +21,7 @@ import ProductCard from '../components/ProductCard'
 import http from '../utils/http-instance'
 import { checkUserAuth } from '../helper/isAuthenticatedUser'
 
-const Home = ({ allProducts }) => {
+const Home = ({ allProducts, user }) => {
   const { state, dispatch } = useContext(Store)
   const [userAuth, setUserAuth] = useState(true)
   const router = useRouter()
@@ -28,8 +29,6 @@ const Home = ({ allProducts }) => {
   const products = state.product?.products
 
   useEffect(() => {
-    const user = checkUserAuth()
-    
     setUserAuth(user)
 
     dispatch(productActions.productInit(
@@ -50,7 +49,7 @@ const Home = ({ allProducts }) => {
       dispatch(actions.addCartItem(product))
       dispatch(productActions.productAddedToCart(product._id))
     } else {
-      Router.replace('/authentication/login?redirect=true')
+      Router.replace('/authentication/login')
     }
   }
 
@@ -236,13 +235,33 @@ const Home = ({ allProducts }) => {
   )
 }
 
-Home.getInitialProps = async () => {
+export async function getServerSideProps(context) {
+  const authToken = context.req?.cookies.Authorization
+  let user = null 
+
+  try {
+    if (authToken) {
+      const verificationResponse = jwt.verify(authToken, process.env.JWT_SECRET)
+
+      if (verificationResponse) {
+        user = jwt.decode(authToken)
+      } else {
+        user = null
+      }
+    }
+  } catch (error) {
+    user = null
+  }
+
   const allProducts = await http.get(
-    `http://localhost:3000/api/products`
+    `http://localhost:8080/api/products`
   )
 
   return {
-    allProducts: allProducts.data.data
+    props: {
+      user: user,
+      allProducts: allProducts.data.data
+    }
   }
 }
 

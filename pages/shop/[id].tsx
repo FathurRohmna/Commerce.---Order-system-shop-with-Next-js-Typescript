@@ -104,7 +104,7 @@ export default Shop
 
 export async function getServerSideProps(context) {
   const shop = await http.get(
-    `http://localhost:3000/api/shop/${context.params.id}`
+    `http://localhost:8080/api/shop/${context.params.id}`
   )
 
   return {

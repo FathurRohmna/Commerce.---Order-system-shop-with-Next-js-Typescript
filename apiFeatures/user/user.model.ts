@@ -20,7 +20,6 @@ export interface UserDocument extends Document {
 
 const UserSchema = new Schema(
   {
-    _id: { type: String, default: uuidv4() },
     firstName: { type: String, required: true, min: 6, max: 255 },
     lastName: { type: String, required: false, min: 6, max: 255 },
     email: { type: String, required: true, unique: true, min: 6, max: 255 },
@@ -47,7 +46,6 @@ const UserSchema = new Schema(
       virtuals: true,
       getters: true,
     },
-    id: false
   },
 )
 
